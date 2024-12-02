@@ -1,0 +1,75 @@
+% Reaction Control Subsystem (RCS)
+% This script handles malfunction detection and velocity change calculations for spacecraft thrusters.
+
+% Function to check thruster limits
+function check_thruster_limits(thrust, flow_rate, exhaust_velocity)
+    MAX_THRUST = 100; % Newtons
+    MAX_FLOW_RATE = 0.05; % kg/s
+    MAX_EXHAUST_VELOCITY = 2000; % m/s
+
+    if thrust > MAX_THRUST
+        fprintf('Thruster malfunction: Thrust exceeds limit by %.2f N\n', thrust - MAX_THRUST);
+    end
+    if flow_rate > MAX_FLOW_RATE
+        fprintf('Thruster malfunction: Flow rate exceeds limit by %.2f kg/s\n', flow_rate - MAX_FLOW_RATE);
+    end
+    if exhaust_velocity > MAX_EXHAUST_VELOCITY
+        fprintf('Thruster malfunction: Exhaust velocity exceeds limit by %.2f m/s\n', ...
+                exhaust_velocity - MAX_EXHAUST_VELOCITY);
+    end
+end
+
+% Function to calculate change in velocity (Δv)
+function delta_v = calculate_velocity_change(flow_rate, exhaust_velocity, elapsed_time, spacecraft_mass)
+    thrust = flow_rate * exhaust_velocity;
+    delta_v = (thrust * elapsed_time) / spacecraft_mass;
+end
+
+% Function to calculate 3D velocity change (Δv in x, y, z axes)
+function delta_v = calculate_velocity_change_3d(flow_rates, exhaust_velocities, elapsed_times, spacecraft_mass)
+    delta_v = zeros(1, 3); % Initialize Δv for x, y, z axes
+    for i = 1:3
+        thrust = flow_rates(i) * exhaust_velocities(i);
+        delta_v(i) = (thrust * elapsed_times(i)) / spacecraft_mass;
+    end
+end
+
+% Main script
+spacecraft_mass = 500; % kg
+
+% Task 1: Malfunction Detection
+disp('Task 1: Malfunction Detection');
+check_thruster_limits(120, 0.06, 2100); % Example test case
+check_thruster_limits(80, 0.03, 1500); % Example test case
+
+% Task 2: Velocity Change Calculation
+disp('Task 2: Velocity Change Calculation');
+events = [0.02, 1000, 5; % ṁ, ve, Δt
+          0.06, 1000, 3;
+          0.05, 2000, 10];
+
+for i = 1:size(events, 1)
+    flow_rate = events(i, 1);
+    exhaust_velocity = events(i, 2);
+    elapsed_time = events(i, 3);
+    delta_v = calculate_velocity_change(flow_rate, exhaust_velocity, elapsed_time, spacecraft_mass);
+    fprintf('Δv for event (ṁ=%.2f, ve=%.2f, Δt=%.2f) is %.2f m/s\n', ...
+            flow_rate, exhaust_velocity, elapsed_time, delta_v);
+end
+
+% Check Plus: 3D Velocity Change
+disp('Check Plus: 3D Velocity Change');
+flow_rates = [0.04, 0.03, 0.01]; % kg/s for x, y, z
+exhaust_velocities = [2000, 2000, 2000]; % m/s for x, y, z
+elapsed_times = [15, 4, 3]; % seconds for x, y, z
+delta_v_3d = calculate_velocity_change_3d(flow_rates, exhaust_velocities, elapsed_times, spacecraft_mass);
+fprintf('Δv for 3D event is [%.2f, %.2f, %.2f] m/s\n', delta_v_3d);
+
+%%% Created in ChatGPT on 02DEC2024
+%% Prompt: Create a script in Matlab that meets the following parameters and executes the following instructions : "input Space craft paramters"
+% Features: Malfunction Detection:
+% Checks thruster values against limits and reports malfunctions.
+% Velocity Change Calculation:
+% Computes Δv for single thruster events.
+% 3D Velocity Change Calculation:
+% Calculates Δv for thrusters operating in all three axes.
