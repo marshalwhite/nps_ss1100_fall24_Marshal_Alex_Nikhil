@@ -1,0 +1,52 @@
+% Thermal Control Subsystem (TCS)
+% This script handles temperature control for spacecraft systems.
+
+% Function to adjust temperature incrementally
+function new_temperature = adjust_temperature(current_temperature, target_temperature)
+    MAX_CHANGE_FACTOR = 0.25; % 25% of the temperature difference
+    temperature_difference = target_temperature - current_temperature;
+    adjustment = temperature_difference * MAX_CHANGE_FACTOR;
+    new_temperature = current_temperature + adjustment;
+    fprintf('Adjusting temperature by %.2f°C towards target.\n', adjustment);
+end
+
+% Function to simulate dynamic temperature control over multiple cycles
+function final_temperature = dynamic_temperature_control(initial_temp, target_temp, cycles)
+    current_temp = initial_temp;
+    fprintf('Starting temperature: %.2f°C\n', current_temp);
+    for cycle = 1:cycles
+        current_temp = adjust_temperature(current_temp, target_temp);
+        fprintf('Cycle %d: Current temperature: %.2f°C\n', cycle, current_temp);
+        if abs(current_temp - target_temp) < 0.1
+            fprintf('Target temperature reached.\n');
+            break;
+        end
+    end
+    fprintf('Final temperature after %d cycles: %.2f°C\n', cycle, current_temp);
+    final_temperature = current_temp;
+end
+
+% Main script
+% Task 1: Single Temperature Adjustment
+disp('Task 1: Single Temperature Adjustment');
+current_temp = 20.0; % Current temperature in °C
+target_temp = 30.0; % Target temperature in °C
+new_temp = adjust_temperature(current_temp, target_temp);
+fprintf('New temperature: %.2f°C\n\n', new_temp);
+
+% Task 2: Dynamic Temperature Control Simulation
+disp('Task 2: Dynamic Temperature Control Simulation');
+initial_temperature = 10.0; % Starting temperature in °C
+target_temperature = 25.0; % Target temperature in °C
+cycles = 15; % Number of cycles to simulate
+final_temp = dynamic_temperature_control(initial_temperature, target_temperature, cycles);
+
+%%% Created in ChatGPT on 02DEC2024
+%% Prompt: Create a script in Matlab that meets the following parameters and executes the following instructions : "input Space craft paramters"
+% Features: Single Temperature Adjustment:
+% Adjusts the current temperature incrementally by up to 25% of the difference from the target temperature.
+% Logs the adjustment magnitude for transparency.
+% Dynamic Temperature Control:
+% Simulates temperature control over multiple cycles.
+% Stops early if the target temperature is reached within a 0.1°C threshold.
+% Outputs the temperature at each cycle and the final temperature after simulation.
