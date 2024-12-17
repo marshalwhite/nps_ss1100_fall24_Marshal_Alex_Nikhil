@@ -29,7 +29,7 @@ Remote Sensing Payload: Data ingestion, radiance to reflectance conversion, and 
 inputs from group members worked - code testing, GitHub branch management, etc. - and
 how you divided up the workload for the project.
 
-
+Our group divided the project into three separate sections giving each team member two total sections each to code. We completed our sections without much collaboration aside from occasional troubleshooting conducted in person in between classes. Once we had each compiled our own code, we uploaded our segments to a Test Branch created on our Github. We had at least one other person make sure that the code would run correctly before pushing our code to the Main Branch.
 
 2. What was the most challenging section, and why? Feel free to provide more than one response
 if there is a difference of opinion in the group.
