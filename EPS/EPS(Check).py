@@ -34,7 +34,7 @@ def solar_power_and_energy(voltage, current, time_elapsed, max_voltage=28, max_c
 # Inputs
 voltage = 30  # Volts
 current = 8  # Amperes
-time_elapsed = 180  # Seconds (1 hour)
+time_elapsed = 1800  # Seconds (1 hour)
 
 # Calculate power and energy
 results = solar_power_and_energy(voltage, current, time_elapsed)
