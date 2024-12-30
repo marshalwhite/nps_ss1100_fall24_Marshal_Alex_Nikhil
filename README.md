@@ -51,3 +51,25 @@ into your tasks.
 5. In what way could this project be improved for future quarters?
 
   Introducing the class to Github earlier in the course would be beneficial. Unfamiliarity with the website created some delay. Team members were confused on how to upload their code to the Github, how to differentiate between the Test and Main branches, and occasionally were unsuccessful in using Github altogether. Being able to become familiar with the website interface while still in class would have allowed ample time to avoid these issues. ### White
+
+
+# Instructor Comments
+
+### ADC
+In your import statement of the ADC_py.py, you specified all of the function names from the rotate_me.py file. This allows you to call them without using the rotate_me.XXXX syntax, but one way to make it easier would be to use the "*" operator to get all of the functions by name:
+
+from rotate_me import *
+
+### C&DH
+Great use of modular code with separate functions to split up the script into segments. Main comment I have is that you repeat certain objects (subsystems, commands, etc.) in multiple functions; if you instead wrote those in the main script, their scope would still be available in read-only form inside of the functions. That's actually desirable in some ways, since it would prevent your functions from accidentally overwriting those data.
+
+When working with error handling, it is often useful to have a "catch-all" exception, in this case just to be sure it can catch errors other than ValueErrors (which is the only type of error that your code can handle as written). 
+
+### EPS
+Good use of default parameters and a dictionary as the output in your solar_power_and_energy() function. 
+
+### TCS
+In your dynamic_temperature_control, you use the same variable name (current_temp) as a variable declared in the main body of the script. This may result in unexpected behavior, although you do overwrite it with a new value. Recommend you use unique names inside functions that don't match ones on the outside of that scope, *unless* you actually intend to use that same variable's value (or modify it with *global*). I also think your *break* in the dynamic_temperature_control() function isn't correctly exiting the loop - it seems to run for 15 cycles no matter if it reaches the 0.1 threshold or not. I think the issue is with the abs(current_temp - target_temp) not correctly determining the adjustment difference. 
+
+### Github
+Good use of the test branch; it seems like you pushed everything to the main, so hopefully that worked well for you. Great responses and feedback on the main page.
